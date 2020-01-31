@@ -28,6 +28,8 @@ public class PlayerService {
 			if (podID != null && !podID.isEmpty()) { 
 				
 				stmt.setInt(5, Integer.parseInt(podID));
+			} else {
+				stmt.setString(5, "");
 			}
 			
 			stmt.execute();

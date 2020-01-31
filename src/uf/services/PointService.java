@@ -14,12 +14,13 @@ public class PointService {
 		this.dbService = dbService;
 	}
 	
-	public boolean AddPoint(int GameID, int ThrowID, int OffensiveTeam, int DefensiveTeam, int AssistingPlayer, int scoringPlayer) {
+	public boolean AddPoint(int GameID, int OffensiveTeam, int DefensiveTeam, int AssistingPlayer, int scoringPlayer) {
 		boolean result = false;
 		int errCode = -1;
 		CallableStatement stmt = null;
+		int ThrowID = 1;
 		try {
-			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_point](10, ?, ?, ?, ?, ?)}");
+			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_point](2, ?, ?, ?, ?, ?, ?)}");
 			stmt.registerOutParameter(1, Types.INTEGER);
 			stmt.setInt(2, GameID);
 			stmt.setInt(3, ThrowID);

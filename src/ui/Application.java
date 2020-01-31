@@ -10,14 +10,17 @@ import javax.swing.JTextField;
 
 import uf.services.DatabaseConnectionService;
 import uf.services.PlayerService;
+import uf.services.PointService;
 
 public class Application {
 	
 	public JFrame frame;
 	private PlayerService playerService = null;
+	private PointService pointService;
 	
-	public Application(PlayerService playerService) {
+	public Application(PlayerService playerService, PointService pointService) {
 		this.playerService = playerService;
+		this.pointService = pointService;
 		frame = new JFrame();
 		frame.setSize(800,800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,7 +98,7 @@ public class Application {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				playerService.addPlayer(Integer.parseInt(USAUIDTextField.getText()), fNameTextField.getText(),
-						lNameTextField.getText(), Integer.parseInt(podIDTextField.getText()));
+						lNameTextField.getText(), podIDTextField.getText());
 				
 			}
 			
@@ -115,6 +118,17 @@ public class Application {
 	
 	public void addPointGuiStuff() {
 		
+		// Defense
+		JLabel gameID = new JLabel();
+		gameID.setText("GameID");
+		gameID.setBounds(420,360, 200, 30);
+		
+		JTextField gameIDtext = new JTextField();
+		gameIDtext.setEditable(true);
+		gameIDtext.setBounds(520, 360, 200, 30);
+		
+		frame.add(gameID);
+		frame.add(gameIDtext);
 		
 		// Offense
 		JLabel offteamLabel = new JLabel();
@@ -170,7 +184,16 @@ public class Application {
 		defteamButton.setEnabled(true);
 		defteamButton.setBounds(550, 500, 150, 30);
 		
-		
+		defteamButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pointService.AddPoint(Integer.parseInt(gameIDtext.getText()), Integer.parseInt(offteamTextField.getText()), Integer.parseInt(defteamTextField.getText()),
+						Integer.parseInt(assistingPlayerTextField.getText()), Integer.parseInt(scoringPlayerTextField.getText()));
+				
+			}
+			
+		});
 		
 		
 		frame.add(defteamButton);
