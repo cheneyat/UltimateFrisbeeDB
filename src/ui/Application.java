@@ -1,15 +1,23 @@
 package ui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import uf.services.DatabaseConnectionService;
+import uf.services.PlayerService;
+
 public class Application {
 	
 	public JFrame frame;
+	private PlayerService playerService = null;
 	
-	public Application() {
+	public Application(PlayerService playerService) {
+		this.playerService = playerService;
 		frame = new JFrame();
 		frame.setSize(800,800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,6 +90,16 @@ public class Application {
 		playerButton.setText("Add Player");
 		playerButton.setEnabled(true);
 		playerButton.setBounds(400, 120, 150, 30);
+		playerButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playerService.addPlayer(Integer.parseInt(USAUIDTextField.getText()), fNameTextField.getText(),
+						lNameTextField.getText(), Integer.parseInt(podIDTextField.getText()));
+				
+			}
+			
+		});
 		
 		frame.add(USAUIDTextField);
 		frame.add(USAUIDLabel);
