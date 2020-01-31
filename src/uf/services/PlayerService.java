@@ -14,17 +14,22 @@ public class PlayerService {
 		this.dbService = dbService;
 	}
 	
-	public boolean addPlayer(int USAUID, String fName, String lName, int podID) {
+	public boolean addPlayer(int USAUID, String fName, String lName, String podID) {
 		boolean result = false;
 		int errCode = -1;
 		CallableStatement stmt = null;
+		
 		try {
 			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_player](?, ?, ?, ?)}");
 			stmt.registerOutParameter(1, Types.INTEGER);
 			stmt.setInt(2, USAUID);
 			stmt.setString(3, fName);
 			stmt.setString(4, lName);
-			stmt.setInt(5, podID);
+			if (podID != null && !podID.isEmpty()) { 
+				
+				stmt.setInt(5, Integer.parseInt(podID));
+			}
+			
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
