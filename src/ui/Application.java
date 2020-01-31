@@ -17,6 +17,7 @@ public class Application {
 		frame.setTitle("Ultimate Frisbee Stat Tracking App");
 		addTeamGuiStuff();
 		addPointGuiStuff();
+		addPlayerGuiStuff();
 		frame.setLayout(null);
 		frame.setVisible(true);
 	}
@@ -45,7 +46,53 @@ public class Application {
 	
 	public void addPlayerGuiStuff() {
 		
+		JLabel USAUIDLabel = new JLabel();
+		USAUIDLabel.setText("USAUID");
+		USAUIDLabel.setBounds(20,20, 200, 30);
 		
+		JTextField USAUIDTextField = new JTextField();
+		USAUIDTextField.setEditable(true);
+		USAUIDTextField.setBounds(100, 20, 200, 30);
+		
+		JLabel fNameLabel = new JLabel();
+		fNameLabel.setText("First Name");
+		fNameLabel.setBounds(320,20, 200, 30);
+		
+		JTextField fNameTextField = new JTextField();
+		fNameTextField.setEditable(true);
+		fNameTextField.setBounds(400, 20, 200, 30);
+		
+		JLabel lNameLabel = new JLabel();
+		lNameLabel.setText("Last Name");
+		lNameLabel.setBounds(20, 70, 200, 30);
+		
+		JTextField lNameTextField = new JTextField();
+		lNameTextField.setEditable(true);
+		lNameTextField.setBounds(100, 70, 200, 30);
+
+		JLabel podIDLabel = new JLabel();
+		podIDLabel.setText("Pod ID");
+		podIDLabel.setBounds(320, 70, 200, 30);
+		
+		JTextField podIDTextField = new JTextField();
+		podIDTextField.setEditable(true);
+		podIDTextField.setBounds(400, 70, 200, 30);
+		
+		JButton playerButton = new JButton();
+		playerButton.setText("Add Player");
+		playerButton.setEnabled(true);
+		playerButton.setBounds(400, 120, 150, 30);
+		
+		frame.add(USAUIDTextField);
+		frame.add(USAUIDLabel);
+		frame.add(fNameLabel);
+		frame.add(fNameTextField);
+		frame.add(lNameLabel);
+		frame.add(lNameTextField);
+		frame.add(podIDLabel);
+		frame.add(podIDTextField);
+
+		frame.add(playerButton);
 	}
 	
 	public void addPointGuiStuff() {
