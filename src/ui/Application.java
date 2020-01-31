@@ -118,7 +118,7 @@ public class Application {
 	
 	public void addPointGuiStuff() {
 		
-		// Defense
+		// GameID
 		JLabel gameID = new JLabel();
 		gameID.setText("GameID");
 		gameID.setBounds(420,360, 200, 30);
@@ -129,6 +129,18 @@ public class Application {
 		
 		frame.add(gameID);
 		frame.add(gameIDtext);
+		
+		// PointID
+		JLabel pointID = new JLabel();
+		pointID.setText("PointID");
+		pointID.setBounds(20,360, 200, 30);
+		
+		JTextField pointIDtext = new JTextField();
+		pointIDtext.setEditable(true);
+		pointIDtext.setBounds(120, 360, 200, 30);
+		
+		frame.add(pointIDtext);
+		frame.add(pointID);
 		
 		// Offense
 		JLabel offteamLabel = new JLabel();
@@ -188,8 +200,8 @@ public class Application {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				pointService.AddPoint(Integer.parseInt(gameIDtext.getText()), Integer.parseInt(offteamTextField.getText()), Integer.parseInt(defteamTextField.getText()),
-						Integer.parseInt(assistingPlayerTextField.getText()), Integer.parseInt(scoringPlayerTextField.getText()));
+				pointService.AddPoint(Integer.parseInt(pointIDtext.getText()), Integer.parseInt(gameIDtext.getText()), offteamTextField.getText(), defteamTextField.getText(),
+						assistingPlayerTextField.getText(), scoringPlayerTextField.getText());
 				
 			}
 			

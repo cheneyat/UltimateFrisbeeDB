@@ -1,7 +1,10 @@
 package uf.services;
 
 import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 
 import javax.swing.JOptionPane;
@@ -14,20 +17,21 @@ public class PointService {
 		this.dbService = dbService;
 	}
 	
-	public boolean AddPoint(int GameID, int OffensiveTeam, int DefensiveTeam, int AssistingPlayer, int scoringPlayer) {
+	public boolean AddPoint(int PointID, int GameID, String OffensiveTeam, String DefensiveTeam, String AssistingPlayer, String scoringPlayer) {
 		boolean result = false;
 		int errCode = -1;
 		CallableStatement stmt = null;
 		int ThrowID = 1;
 		try {
-			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_point](2, ?, ?, ?, ?, ?, ?)}");
+			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_point](?, ?, ?, ?, ?, ?, ?)}");
 			stmt.registerOutParameter(1, Types.INTEGER);
-			stmt.setInt(2, GameID);
-			stmt.setInt(3, ThrowID);
-			stmt.setInt(4, OffensiveTeam);
-			stmt.setInt(5, DefensiveTeam);
-			stmt.setInt(6, AssistingPlayer);
-			stmt.setInt(7, scoringPlayer);
+			stmt.setInt(2, PointID);
+			stmt.setInt(3, GameID);
+			stmt.setInt(4, ThrowID);
+			stmt.setInt(5, GetTeamIDByName(OffensiveTeam));
+			stmt.setInt(6, GetTeamIDByName(DefensiveTeam));
+			stmt.setInt(7, GetPlayerIDByName(AssistingPlayer));
+			stmt.setInt(8, GetPlayerIDByName(scoringPlayer));
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
@@ -45,6 +49,43 @@ public class PointService {
 		
 		return result;
 	}
+	
+	public int GetPlayerIDByName(String username) {
+		
+		CallableStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[Get_Player_ByFName](?)}");
+			stmt.registerOutParameter(1, Types.INTEGER);
+			stmt.setString(2, username);
+			stmt.execute();
+			int id = stmt.getInt(1);
+			return id;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Invalid player");
+			return -1;
+		}
+	}
+	
+public int GetTeamIDByName(String username) {
+		
+		CallableStatement stmt;
+		try {
+			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[Get_Team_ByTeamName](?)}");
+			stmt.registerOutParameter(1, Types.INTEGER);
+			stmt.setString(2, username);
+			stmt.execute();
+			int id = stmt.getInt(1);
+			return id;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Invalid team");
+			return -1;
+		}
+	}
+	
 
 }
 
