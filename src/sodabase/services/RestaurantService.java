@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import uf.services.DatabaseConnectionService;
+
 public class RestaurantService {
 
 	private DatabaseConnectionService dbService = null;

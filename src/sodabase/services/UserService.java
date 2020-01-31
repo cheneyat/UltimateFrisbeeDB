@@ -16,6 +16,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.swing.JOptionPane;
 
+import uf.services.DatabaseConnectionService;
+
 
 public class UserService {
 	private static final Random RANDOM = new SecureRandom();
