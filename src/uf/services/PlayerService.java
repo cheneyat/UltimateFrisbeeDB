@@ -29,7 +29,7 @@ public class PlayerService {
 				
 				stmt.setInt(5, Integer.parseInt(podID));
 			} else {
-				stmt.setString(5, "");
+				stmt.setString(5, null);
 			}
 			
 			stmt.execute();
@@ -50,7 +50,7 @@ public class PlayerService {
 			JOptionPane.showMessageDialog(null, "ERROR: USAUID is already assigned to a player.");
 		}
 		else if (errCode == 3) {
-			JOptionPane.showMessageDialog(null, "ERROR: PodID must reference an existing Pod");
+			JOptionPane.showMessageDialog(null, "ERROR: PodID must reference an existing Pod or be null");
 		}
 		else if (errCode == 4) {
 			JOptionPane.showMessageDialog(null, "ERROR: FName and LName cannot be null or empty.");
