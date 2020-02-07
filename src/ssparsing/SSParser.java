@@ -63,9 +63,9 @@ public class SSParser {
 		    System.out.println("Number of rows: " + rows);
 		    System.out.println("Number of columns: " + cols);
 		    
-		    getGame(sheet);
-		    getPlayersOnTeams(sheet, rows);
-		    getGameData(sheet);
+		    //getGame(sheet);
+		    //getPlayersOnTeams(sheet, rows);
+		    getGameData(sheet, rows);
 		    
 //		    for(int r = 0; r < rows; r++) {
 //		        row = sheet.getRow(r);
@@ -83,9 +83,32 @@ public class SSParser {
 		}
 	}
 
-	private void getGameData(XSSFSheet sheet) {
-		// TODO Auto-generated method stub
+	private void getGameData(XSSFSheet sheet, int numrows) {
+		XSSFRow row;
 		
+		int t1Name = 5;
+		int t1USAUID = 6;
+		int t2Name = 7;
+		int t2USAUID = 8;
+		
+		for(int i = 4; i < numrows; i++) {
+			
+			row = sheet.getRow(i);
+			XSSFCell t1NameCell = row.getCell((short)0);
+			XSSFCell t1USAUIDCell = row.getCell((short)1);
+			XSSFCell t2NameCell = row.getCell((short)2);
+			XSSFCell t2USAUIDCell = row.getCell((short)3);
+			
+			if (t1NameCell.getStringCellValue().equals("")) {
+				break;
+			}
+			
+			System.out.println("Throw #" + (i-3) + "=  { Type: " + t1NameCell + ", Thower: " +
+					t1USAUIDCell + ", Receiver: " + t2NameCell + ", isPoint: " + t2USAUIDCell + "} ");
+			
+			
+			
+		}
 	}
 
 	private void getPlayersOnTeams(XSSFSheet sheet, int numrows) {
@@ -105,10 +128,10 @@ public class SSParser {
 			XSSFCell t2NameCell = row.getCell((short)t2Name);
 			XSSFCell t2USAUIDCell = row.getCell((short)t2USAUID);
 			
-			System.out.println("Player1: " + t1NameCell.getStringCellValue());
-			System.out.println("Player1 USAUID: " + t1USAUIDCell.getStringCellValue());
-			System.out.println("Player2: " + t2NameCell.getStringCellValue());
-			System.out.println("Player2 USAUID: " + t2USAUIDCell.getStringCellValue());
+			System.out.println("Team 1 - Player " + (i-2) + ": " + t1NameCell.getStringCellValue());
+			System.out.println("Team 1 - Player " + (i-2) + " USAUID: " + t1USAUIDCell.getStringCellValue());
+			System.out.println("Team 2 - Player " + (i-2) + ": " + t2NameCell.getStringCellValue());
+			System.out.println("Team 2 - Player "  + (i-2) + " USAUID: " + t2USAUIDCell.getStringCellValue());
 			
 			if (t1NameCell.getStringCellValue().equals("")) {
 				break;
