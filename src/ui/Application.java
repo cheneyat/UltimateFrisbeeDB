@@ -16,6 +16,7 @@ import uf.services.PlayerService;
 import uf.services.PointService;
 import uf.services.ThrowService;
 import uf.services.TeamService;
+import uf.services.PlaysOnService;
 
 public class Application {
 	
@@ -24,14 +25,16 @@ public class Application {
 	private PointService pointService;
 	private ThrowService throwService;
 	private TeamService teamService;
+	private PlaysOnService playsOnService;
 	
-	public Application(PlayerService playerService, PointService pointService, ThrowService throwService, TeamService teamService) {
+	public Application(PlayerService playerService, PointService pointService, ThrowService throwService, TeamService teamService, PlaysOnService playsOnService) {
 		this.playerService = playerService;
 		this.pointService = pointService;
 		this.throwService = throwService;
 		this.teamService = teamService;
+		this.playsOnService = playsOnService;
 		frame = new JFrame();
-		frame.setSize(800,800);
+		frame.setSize(800,1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setTitle("Ultimate Frisbee Stat Tracking App");
@@ -39,6 +42,7 @@ public class Application {
 		addPointGuiStuff();
 		addPlayerGuiStuff();
 		addThrowStuff();
+		addPlaysOnGuiStuff();
 		frame.setLayout(null);
 		frame.setVisible(true);
 	}
@@ -57,7 +61,6 @@ public class Application {
 		JTextField teamTextField = new JTextField();
 		teamTextField.setEditable(true);
 		teamTextField.setBounds(100, 200, 200, 30);
-		
 		
 		JTextField teamIDTextField = new JTextField();
 		teamIDTextField.setEditable(true);
@@ -85,7 +88,43 @@ public class Application {
 		
 	}
 	
-	
+	public void addPlaysOnGuiStuff() {
+		JLabel teamIDLabel = new JLabel();
+		teamIDLabel.setText("Team ID");
+		teamIDLabel.setBounds(320,800, 200, 30);
+		
+		JLabel USAUIDLabel = new JLabel();
+		USAUIDLabel.setText("USAUID");
+		USAUIDLabel.setBounds(20,800, 200, 30);
+		
+		JTextField teamIDTextField = new JTextField();
+		teamIDTextField.setEditable(true);
+		teamIDTextField.setBounds(400, 800, 200, 30);
+		
+		JTextField PlayerIDTextField = new JTextField();
+		PlayerIDTextField.setEditable(true);
+		PlayerIDTextField.setBounds(100, 800, 200, 30);
+		
+		JButton addToTeamButton = new JButton();
+		addToTeamButton.setText("Add To Team");
+		addToTeamButton.setEnabled(true);
+		addToTeamButton.setBounds(400, 850, 150, 30);
+		
+		addToTeamButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				playsOnService.addPlayerToTeam(Integer.parseInt(PlayerIDTextField.getText()), Integer.parseInt(teamIDTextField.getText()));			
+			}
+			
+		});
+		
+		frame.add(teamIDLabel);
+		frame.add(USAUIDLabel);
+		frame.add(teamIDTextField);
+		frame.add(PlayerIDTextField);
+		frame.add(addToTeamButton);
+	}
 	
 	public void addPlayerGuiStuff() {
 		
