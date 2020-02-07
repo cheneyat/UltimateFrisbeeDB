@@ -79,15 +79,6 @@ public class ThrowService {
 			else if (errCode == 1) {
 				JOptionPane.showMessageDialog(null, "ERROR: Invalid Inputs");
 			}
-			else if (errCode == 2) {
-				JOptionPane.showMessageDialog(null, "ERROR: PointID does not exist.");
-			}
-			else if (errCode == 3) {
-				JOptionPane.showMessageDialog(null, "ERROR: Throwing Player ID does not exist.");
-			}
-			else if (errCode == 4) {
-				JOptionPane.showMessageDialog(null, "ERROR: Invalid throw type.");
-			}
 		}
 		return result;
 	}
