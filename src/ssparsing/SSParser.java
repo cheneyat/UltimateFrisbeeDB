@@ -35,6 +35,8 @@ public class SSParser {
 	
 	public void parse() {
 		
+		System.out.println("Parsing Game #1");
+		
 		try {
 		    XSSFSheet sheet = excelFile.getSheetAt(0);
 		    XSSFRow row;
@@ -42,7 +44,7 @@ public class SSParser {
 		    
 		    row = sheet.getRow(0);
             cell = row.getCell((short)0);
-            System.out.println(cell.getStringCellValue());
+//            System.out.println(cell.getStringCellValue());
 	                    // Your code here
 		    
 		    int rows; // No of rows
@@ -122,20 +124,24 @@ public class SSParser {
 		
 		for(int i = 3; i < numrows; i++) {
 			
+			
+			
 			row = sheet.getRow(i);
 			XSSFCell t1NameCell = row.getCell((short)t1Name);
 			XSSFCell t1USAUIDCell = row.getCell((short)t1USAUID);
 			XSSFCell t2NameCell = row.getCell((short)t2Name);
 			XSSFCell t2USAUIDCell = row.getCell((short)t2USAUID);
 			
+			if (t1NameCell.getStringCellValue().equals("")) {
+				break;
+			}
+			
 			System.out.println("Team 1 - Player " + (i-2) + ": " + t1NameCell.getStringCellValue());
 			System.out.println("Team 1 - Player " + (i-2) + " USAUID: " + t1USAUIDCell.getStringCellValue());
 			System.out.println("Team 2 - Player " + (i-2) + ": " + t2NameCell.getStringCellValue());
 			System.out.println("Team 2 - Player "  + (i-2) + " USAUID: " + t2USAUIDCell.getStringCellValue());
 			
-			if (t1NameCell.getStringCellValue().equals("")) {
-				break;
-			}
+			
 		}
 		
 	}
@@ -145,6 +151,11 @@ public class SSParser {
 		XSSFRow row = sheet.getRow(2);
 		XSSFCell cell = row.getCell((short)0);
 		XSSFCell cell2 = row.getCell((short)2);
+		
+		if (cell.getStringCellValue().equals("")) {
+			return null;
+		}
+		
         System.out.println("Team1: " + cell.getStringCellValue());
         System.out.println("Team2: " + cell2.getStringCellValue());
         

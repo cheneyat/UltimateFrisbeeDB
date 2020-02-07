@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import ssparsing.SSParser;
 import uf.services.DatabaseConnectionService;
 import uf.services.PlayerService;
 import uf.services.PointService;
@@ -43,6 +44,7 @@ public class Application {
 		addPlayerGuiStuff();
 		addThrowStuff();
 		addPlaysOnGuiStuff();
+		addImportSpreadSheetStuff();
 		frame.setLayout(null);
 		frame.setVisible(true);
 	}
@@ -124,6 +126,38 @@ public class Application {
 		frame.add(teamIDTextField);
 		frame.add(PlayerIDTextField);
 		frame.add(addToTeamButton);
+	}
+	
+	
+	public void addImportSpreadSheetStuff() {
+		
+		JLabel importSpreadSheetLabel = new JLabel();
+		importSpreadSheetLabel.setText("File Path");
+		importSpreadSheetLabel.setBounds(20,900, 200, 30);
+		
+		JTextField spreadSheetTextField = new JTextField();
+		spreadSheetTextField.setEditable(true);
+		spreadSheetTextField.setBounds(100, 900, 400, 30);
+		
+		JButton importButton = new JButton();
+		importButton.setText("Import SpreadSheet");
+		importButton.setEnabled(true);
+		importButton.setBounds(520, 900, 150, 30);
+		
+		frame.add(importSpreadSheetLabel);
+		frame.add(spreadSheetTextField);
+		frame.add(importButton);
+		
+		importButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SSParser s = new SSParser(spreadSheetTextField.getText());
+				s.parse();
+				
+			}
+			
+		});
 	}
 	
 	public void addPlayerGuiStuff() {
