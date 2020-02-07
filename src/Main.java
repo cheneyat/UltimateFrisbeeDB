@@ -15,8 +15,6 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		SSParser parser = new SSParser("C:\\Users\\August\\Desktop\\UltimateFrisbeeTemplate.xlsx");
-		parser.parse();
 		PWrapper pwrap = new PWrapper("src/app.properties");
 		DatabaseConnectionService dbService = new DatabaseConnectionService(pwrap.getValue("serverName"), pwrap.getValue("databaseName"));
 		if (dbService.connect(pwrap.getValue("serverUsername"), pwrap.getValue("serverPassword"))) {

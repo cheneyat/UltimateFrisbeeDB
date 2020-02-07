@@ -60,11 +60,11 @@ public class SSParser {
 		        }
 		    }
 		    
-		    System.out.println("Number of rows: " + rows);
-		    System.out.println("Number of columns: " + cols);
-		    
-		    //getGame(sheet);
-		    //getPlayersOnTeams(sheet, rows);
+//		    System.out.println("Number of rows: " + rows);
+//		    System.out.println("Number of columns: " + cols);
+//		    
+		    getGame(sheet);
+		    getPlayersOnTeams(sheet, rows);
 		    getGameData(sheet, rows);
 		    
 //		    for(int r = 0; r < rows; r++) {
