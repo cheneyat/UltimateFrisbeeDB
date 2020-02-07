@@ -7,6 +7,7 @@ import uf.services.PlayerService;
 import uf.services.PointService;
 import uf.services.ThrowService;
 import uf.services.TeamService;
+import uf.services.PlaysOnService;
 import ui.Application;
 
 public class Main {
@@ -19,7 +20,7 @@ public class Main {
 			System.out.println("Connected to db");
 		}
 		
-		Application app = new Application(new PlayerService(dbService), new PointService(dbService), new ThrowService(dbService), new TeamService(dbService));
+		Application app = new Application(new PlayerService(dbService), new PointService(dbService), new ThrowService(dbService), new TeamService(dbService), new PlaysOnService(dbService));
 		
 //		ApplicationRunner appRunner = new ApplicationRunner();
 //		appRunner.runApplication(args);
