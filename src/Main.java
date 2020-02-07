@@ -5,6 +5,7 @@ import sodabase.ui.ApplicationRunner;
 import uf.services.DatabaseConnectionService;
 import uf.services.PlayerService;
 import uf.services.PointService;
+import uf.services.ThrowService;
 import ui.Application;
 
 public class Main {
@@ -17,7 +18,7 @@ public class Main {
 			System.out.println("Connected to db");
 		}
 		
-		Application app = new Application(new PlayerService(dbService), new PointService(dbService));
+		Application app = new Application(new PlayerService(dbService), new PointService(dbService), new ThrowService(dbService));
 		
 //		ApplicationRunner appRunner = new ApplicationRunner();
 //		appRunner.runApplication(args);
