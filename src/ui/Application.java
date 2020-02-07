@@ -15,6 +15,7 @@ import uf.services.DatabaseConnectionService;
 import uf.services.PlayerService;
 import uf.services.PointService;
 import uf.services.ThrowService;
+import uf.services.TeamService;
 
 public class Application {
 	
@@ -22,11 +23,13 @@ public class Application {
 	private PlayerService playerService = null;
 	private PointService pointService;
 	private ThrowService throwService;
+	private TeamService teamService;
 	
-	public Application(PlayerService playerService, PointService pointService, ThrowService throwService) {
+	public Application(PlayerService playerService, PointService pointService, ThrowService throwService, TeamService teamService) {
 		this.playerService = playerService;
 		this.pointService = pointService;
 		this.throwService = throwService;
+		this.teamService = teamService;
 		frame = new JFrame();
 		frame.setSize(800,800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,18 +50,38 @@ public class Application {
 		teamLabel.setText("Team Name");
 		teamLabel.setBounds(20,200, 200, 30);
 		
+		JLabel teamIDLabel = new JLabel();
+		teamIDLabel.setText("Team ID");
+		teamIDLabel.setBounds(320,200, 200, 30);
+		
 		JTextField teamTextField = new JTextField();
 		teamTextField.setEditable(true);
 		teamTextField.setBounds(100, 200, 200, 30);
 		
+		
+		JTextField teamIDTextField = new JTextField();
+		teamIDTextField.setEditable(true);
+		teamIDTextField.setBounds(400, 200, 200, 30);
+		
 		JButton teamButton = new JButton();
 		teamButton.setText("Add Team");
 		teamButton.setEnabled(true);
-		teamButton.setBounds(150, 250, 150, 30);
+		teamButton.setBounds(400, 250, 150, 30);
+		
+		teamButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				teamService.addTeam(Integer.parseInt(teamIDTextField.getText()), teamTextField.getText());			
+			}
+			
+		});
 		
 		frame.add(teamTextField);
 		frame.add(teamButton);
 		frame.add(teamLabel);
+		frame.add(teamIDTextField);
+		frame.add(teamIDLabel);
 		
 	}
 	
