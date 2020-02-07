@@ -105,12 +105,16 @@ public class SSParser {
 				break;
 			}
 			
+			
+			
 			System.out.println("Throw #" + (i-3) + "=  { Type: " + t1NameCell + ", Thower: " +
 					t1USAUIDCell + ", Receiver: " + t2NameCell + ", isPoint: " + t2USAUIDCell + "} ");
 			
 			
 			
 		}
+		
+		
 	}
 
 	private void getPlayersOnTeams(XSSFSheet sheet, int numrows) {
@@ -137,12 +141,18 @@ public class SSParser {
 			}
 			
 			System.out.println("Team 1 - Player " + (i-2) + ": " + t1NameCell.getStringCellValue());
-			System.out.println("Team 1 - Player " + (i-2) + " USAUID: " + t1USAUIDCell.getStringCellValue());
+			System.out.println("Team 1 - Player " + (i-2) + " USAUID: " + t1USAUIDCell.getNumericCellValue());
+			
+			if (t2NameCell.getStringCellValue().equals("")) {
+				continue;
+			}
 			System.out.println("Team 2 - Player " + (i-2) + ": " + t2NameCell.getStringCellValue());
-			System.out.println("Team 2 - Player "  + (i-2) + " USAUID: " + t2USAUIDCell.getStringCellValue());
+			System.out.println("Team 2 - Player "  + (i-2) + " USAUID: " + t2USAUIDCell.getNumericCellValue());
 			
 			
 		}
+		
+		System.out.println();
 		
 	}
 
@@ -158,7 +168,7 @@ public class SSParser {
 		
         System.out.println("Team1: " + cell.getStringCellValue());
         System.out.println("Team2: " + cell2.getStringCellValue());
-        
+        System.out.println();
         return new Game(cell.getStringCellValue(), cell2.getStringCellValue());
 	}
 
