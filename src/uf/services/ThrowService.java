@@ -55,31 +55,34 @@ public class ThrowService {
 	
 	public boolean addCompletedPass(int pointID, int throwingPlayer, int catchingPlayer, boolean isGoal) {
 		boolean result = false;
-		if(addThrow(pointID, throwingPlayer, "CP")) {
-			CallableStatement stmt = null;
-			int errCode = -1;
-			try {
-				stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_completed_throw](?, ?)}");
-				stmt.registerOutParameter(1, Types.INTEGER);
-				stmt.setInt(2, catchingPlayer);
-				if(isGoal) stmt.setInt(3, 1);
-				else stmt.setInt(3, 0);
-				
-				stmt.execute();
-				errCode = stmt.getInt(1);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			if (errCode == 0) {
-				JOptionPane.showMessageDialog(null, "Add to Completed Pass successful.");
-				result = true;
-			}
-			else if (errCode == 1) {
-				JOptionPane.showMessageDialog(null, "ERROR: Invalid Inputs");
-			}
+		
+		CallableStatement stmt = null;
+		int errCode = -1;
+		try {
+			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_completed_throw](?, ?, ?, ?)}");
+			stmt.registerOutParameter(1, Types.INTEGER);
+			stmt.setInt(1, throwingPlayer);
+			stmt.setInt(2, pointID);
+			stmt.setInt(3, catchingPlayer);
+			if (isGoal)
+				stmt.setInt(3, 1);
+			else
+				stmt.setInt(3, 0);
+
+			stmt.execute();
+			errCode = stmt.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
+		if (errCode == 0) {
+			JOptionPane.showMessageDialog(null, "Add to Completed Pass successful.");
+			result = true;
+		} else if (errCode == 1) {
+			JOptionPane.showMessageDialog(null, "ERROR: Invalid Inputs");
+		}
+		
 		return result;
 	}
 	
