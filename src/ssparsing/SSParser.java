@@ -2,6 +2,10 @@ package ssparsing;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -14,12 +18,29 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import uf.services.GameService;
+import uf.services.PlayerService;
+import uf.services.PointService;
+import uf.services.TeamService;
+import uf.services.ThrowService;
+
 public class SSParser {
 	private FileInputStream stream;
 	private XSSFWorkbook excelFile;
 	
+	private ThrowService throwS;
+	private PlayerService playerS;
+	private PointService pointS;
+	private TeamService teamS;
+	private GameService gameS;
+	
+	private Map<String, Integer> team1PlayerMap;
+	private Map<String, Integer> team2PlayerMap;
+	
 	public SSParser(String filePath) {
 		
+		team1PlayerMap = new HashMap<String, Integer>();
+		team2PlayerMap = new HashMap<String, Integer>();
 		try {
 			stream = new FileInputStream(filePath);
 		} catch (FileNotFoundException e) {
@@ -33,9 +54,14 @@ public class SSParser {
 		}
 	}
 	
-	public void parse() {
+	public void parse(ThrowService throwService, PlayerService playerService, PointService pointService, TeamService teamService, GameService gameService) {
 		
 		System.out.println("Parsing Game #1");
+		throwS = throwService;
+		playerS = playerService;
+		pointS = pointService;
+		teamS = teamService;
+		gameS = gameService;
 		
 		try {
 		    XSSFSheet sheet = excelFile.getSheetAt(0);
@@ -44,16 +70,13 @@ public class SSParser {
 		    
 		    row = sheet.getRow(0);
             cell = row.getCell((short)0);
-//            System.out.println(cell.getStringCellValue());
-	                    // Your code here
-		    
-		    int rows; // No of rows
+
+		    int rows;
 		    rows = sheet.getPhysicalNumberOfRows();
-//
-		    int cols = 0; // No of columns
+
+		    int cols = 0;
 		    int tmp = 0;
 
-		    // This trick ensures that we get the data properly even if it doesn't start from first few rows
 		    for(int i = 0; i < 10 || i < rows; i++) {
 		        row = sheet.getRow(i);
 		        if(row != null) {
@@ -61,25 +84,13 @@ public class SSParser {
 		            if(tmp > cols) cols = tmp;
 		        }
 		    }
-		    
-//		    System.out.println("Number of rows: " + rows);
-//		    System.out.println("Number of columns: " + cols);
-//		    
-		    getGame(sheet);
+
+		    Game game = getGame(sheet);
+		    java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+		    gameS.addGame(date);
 		    getPlayersOnTeams(sheet, rows);
 		    getGameData(sheet, rows);
-		    
-//		    for(int r = 0; r < rows; r++) {
-//		        row = sheet.getRow(r);
-//		        if(row != null) {
-//		            for(int c = 0; c < cols; c++) {
-//		                cell = row.getCell((short)c);
-//		                if(cell != null) {
-//		                    // Your code here
-//		                }
-//		            }
-//		        }
-//		    }
+
 		} catch(Exception ioe) {
 		    ioe.printStackTrace();
 		}
@@ -87,49 +98,48 @@ public class SSParser {
 
 	private void getGameData(XSSFSheet sheet, int numrows) {
 		XSSFRow row;
-		
-		int t1Name = 5;
-		int t1USAUID = 6;
-		int t2Name = 7;
-		int t2USAUID = 8;
-		
+		int pointID = 1;
 		for(int i = 4; i < numrows; i++) {
-			
 			row = sheet.getRow(i);
-			XSSFCell t1NameCell = row.getCell((short)0);
-			XSSFCell t1USAUIDCell = row.getCell((short)1);
-			XSSFCell t2NameCell = row.getCell((short)2);
-			XSSFCell t2USAUIDCell = row.getCell((short)3);
+			XSSFCell typeCell = row.getCell((short)0);
+			XSSFCell throwerCell = row.getCell((short)1);
+			XSSFCell otherPlayerCell = row.getCell((short)2);
+			XSSFCell utilityCell = row.getCell((short)3);
 			
-			if (t1NameCell.getStringCellValue().equals("")) {
+			if (typeCell.getStringCellValue().equals("")) {
 				break;
 			}
+
+			String type = typeCell.getStringCellValue();
+			int throwingPlayer = (int) throwerCell.getNumericCellValue();
+			int otherPlayer = (int) otherPlayerCell.getNumericCellValue();			
 			
-			
-			
-			System.out.println("Throw #" + (i-3) + "=  { Type: " + t1NameCell + ", Thower: " +
-					t1USAUIDCell + ", Receiver: " + t2NameCell + ", isPoint: " + t2USAUIDCell + "} ");
-			
-			
-			
+			if (type.equals("Completed Pass")) {
+				throwS.addCompletedPass(pointID, throwingPlayer, otherPlayer, utilityCell.getBooleanCellValue());
+				if (utilityCell.getBooleanCellValue()) {
+					pointID++;
+				}
+			} else if (type.equals("Throwaway")) {
+				throwS.addThrowaway(pointID, throwingPlayer);
+			} else if (type.equals("BlockedThrow")) {
+				throwS.addBlockedPass(pointID, throwingPlayer, otherPlayer);
+			} else if (type.equals("Pull")) {
+				throwS.addPull(pointID, throwingPlayer, (int) utilityCell.getNumericCellValue());
+			} else {
+				
+				System.err.println("INVALID THROW TYPE");
+			}
 		}
-		
-		
 	}
 
 	private void getPlayersOnTeams(XSSFSheet sheet, int numrows) {
-		
-		XSSFRow row;
-		
+		XSSFRow row;		
 		int t1Name = 5;
 		int t1USAUID = 6;
 		int t2Name = 7;
 		int t2USAUID = 8;
 		
-		for(int i = 3; i < numrows; i++) {
-			
-			
-			
+		for(int i = 3; i < numrows; i++) {			
 			row = sheet.getRow(i);
 			XSSFCell t1NameCell = row.getCell((short)t1Name);
 			XSSFCell t1USAUIDCell = row.getCell((short)t1USAUID);
@@ -139,21 +149,15 @@ public class SSParser {
 			if (t1NameCell.getStringCellValue().equals("")) {
 				break;
 			}
-			
-			System.out.println("Team 1 - Player " + (i-2) + ": " + t1NameCell.getStringCellValue());
-			System.out.println("Team 1 - Player " + (i-2) + " USAUID: " + t1USAUIDCell.getNumericCellValue());
+
+			team1PlayerMap.put(t1NameCell.getStringCellValue(), (int) t1USAUIDCell.getNumericCellValue());
 			
 			if (t2NameCell.getStringCellValue().equals("")) {
 				continue;
 			}
-			System.out.println("Team 2 - Player " + (i-2) + ": " + t2NameCell.getStringCellValue());
-			System.out.println("Team 2 - Player "  + (i-2) + " USAUID: " + t2USAUIDCell.getNumericCellValue());
 			
-			
+			team2PlayerMap.put(t2NameCell.getStringCellValue(), (int) t2USAUIDCell.getNumericCellValue());
 		}
-		
-		System.out.println();
-		
 	}
 
 	private Game getGame(XSSFSheet sheet) {

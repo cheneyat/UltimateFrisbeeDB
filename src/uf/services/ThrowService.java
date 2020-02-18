@@ -143,5 +143,9 @@ public class ThrowService {
 		}
 		return result;
 	}
+	
+	public boolean addThrowaway(int pointID, int throwingPlayer) {
+		return true;
+	}
 
 }

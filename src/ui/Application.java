@@ -11,8 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import ssparsing.Game;
 import ssparsing.SSParser;
 import uf.services.DatabaseConnectionService;
+import uf.services.GameService;
 import uf.services.PlayerService;
 import uf.services.PointService;
 import uf.services.ThrowService;
@@ -27,13 +29,16 @@ public class Application {
 	private ThrowService throwService;
 	private TeamService teamService;
 	private PlaysOnService playsOnService;
+	private GameService gameService;
 	
-	public Application(PlayerService playerService, PointService pointService, ThrowService throwService, TeamService teamService, PlaysOnService playsOnService) {
+	public Application(PlayerService playerService, PointService pointService, ThrowService throwService, 
+			TeamService teamService, PlaysOnService playsOnService, GameService gameService) {
 		this.playerService = playerService;
 		this.pointService = pointService;
 		this.throwService = throwService;
 		this.teamService = teamService;
 		this.playsOnService = playsOnService;
+		this.gameService = gameService;
 		frame = new JFrame();
 		frame.setSize(800,1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -153,7 +158,7 @@ public class Application {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SSParser s = new SSParser(spreadSheetTextField.getText());
-				s.parse();
+				s.parse(throwService, playerService, pointService, teamService, gameService);
 				
 			}
 			
