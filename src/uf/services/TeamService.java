@@ -43,5 +43,22 @@ public class TeamService {
 		
 		return result;
 	}
+	
+	public int getIDByTeamName(String name) {
+		int result = -1;
+		CallableStatement stmt = null;
+		
+		try {
+			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[Get_Team_ByTeamName](?)}");
+			stmt.registerOutParameter(1, Types.INTEGER);
+			stmt.setString(2, name);
+			stmt.execute();
+			result = stmt.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 
 }

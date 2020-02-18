@@ -47,7 +47,7 @@ public class Application {
 		addTeamGuiStuff();
 		addPointGuiStuff();
 		addPlayerGuiStuff();
-		addThrowStuff();
+		//addThrowStuff();
 		addPlaysOnGuiStuff();
 		addImportSpreadSheetStuff();
 		frame.setLayout(null);
@@ -321,130 +321,133 @@ public class Application {
 		frame.add(defteamButton);
 	}
 	
-	public void addThrowStuff() {
-		
-		JLabel throwingPlayerLabel = new JLabel();
-		throwingPlayerLabel.setText("Throwing Player");
-		throwingPlayerLabel.setBounds(20, 550, 200, 30);
-		
-		frame.add(throwingPlayerLabel);
-		
-		JTextField throwingPlayerText = new JTextField();
-		throwingPlayerText.setEditable(true);
-		throwingPlayerText.setBounds(120, 550, 200, 30);
-		
-		frame.add(throwingPlayerText);
-		
-		JLabel blockingPlayerLabel = new JLabel();
-		blockingPlayerLabel.setText("Blocking Player");
-		blockingPlayerLabel.setBounds(420, 550, 200, 30);
-		
-		frame.add(blockingPlayerLabel);
-		
-		JTextField blockingPlayerText = new JTextField();
-		blockingPlayerText.setEditable(true);
-		blockingPlayerText.setBounds(520, 550, 200, 30);
-		
-		frame.add(blockingPlayerText);
-		
-		JLabel catchingPlayerLabel = new JLabel();
-		catchingPlayerLabel.setText("Catching Player");
-		catchingPlayerLabel.setBounds(20, 600, 200, 30);
-		
-		frame.add(catchingPlayerLabel);
-		
-		JTextField catchingPlayerText = new JTextField();
-		catchingPlayerText.setEditable(true);
-		catchingPlayerText.setBounds(120, 600, 200, 30);
-		
-		frame.add(catchingPlayerText);
-		
-		JLabel hangtimeLabel = new JLabel();
-		hangtimeLabel.setText("Hangtime");
-		hangtimeLabel.setBounds(420, 600, 200, 30);
-		
-		frame.add(hangtimeLabel);
-		
-		JTextField hangtimeText = new JTextField();
-		hangtimeText.setEditable(true);
-		hangtimeText.setBounds(520, 600, 200, 30);
-		
-		frame.add(hangtimeText);
-		
-		JLabel type = new JLabel();
-		type.setText("Type");
-		type.setBounds(20, 650, 200, 30);
-		
-		frame.add(type);
-		
-		String[] types = {"Completed Pass", "Blocked Pass", "Pull"};
-		JComboBox typeList = new JComboBox(types);
-		typeList.setBounds(120, 650, 200, 30);
-		
-		frame.add(typeList);
-		
-		JLabel pointIDLabel = new JLabel();
-		pointIDLabel.setText("PointID");
-		pointIDLabel.setBounds(420, 650, 200, 30);
-		
-		frame.add(pointIDLabel);
-		
-		JTextField pointIDText = new JTextField();
-		pointIDText.setEditable(true);
-		pointIDText.setBounds(520, 650, 200, 30);
-		
-		frame.add(pointIDText);
-		
-		JLabel isGoalText = new JLabel();
-		isGoalText.setText("Is goal?");
-		isGoalText.setBounds(20, 700, 150, 30);
-		
-		frame.add(isGoalText);
-		
-		JRadioButton yesButton = new JRadioButton("yes");
-		yesButton.setBounds(120, 700, 100, 30);
-		JRadioButton noButton = new JRadioButton("no");
-		noButton.setBounds(220, 700, 100, 30);
-		
-		frame.add(yesButton);
-		frame.add(noButton);
-		
-		ButtonGroup group = new ButtonGroup();
-		group.add(yesButton);
-		group.add(noButton);
-		
-		
-		JButton throwButton = new JButton();
-		throwButton.setText("Add Throw");
-		throwButton.setEnabled(true);
-		throwButton.setBounds(520, 700, 150, 30);
-		
-		throwButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(typeList.getSelectedItem().equals("Completed Pass")) {
-					if(yesButton.isSelected()) {
-						throwService.addCompletedPass(Integer.parseInt(pointIDText.getText()), Integer.parseInt(throwingPlayerText.getText()),
-								Integer.parseInt(catchingPlayerText.getText()), true);
-					} else if(noButton.isSelected()) {
-						throwService.addCompletedPass(Integer.parseInt(pointIDText.getText()), Integer.parseInt(throwingPlayerText.getText()),
-								Integer.parseInt(catchingPlayerText.getText()), false);
-					}
-				} else if(typeList.getSelectedItem().equals("Blocked Pass")) {
-					throwService.addBlockedPass(Integer.parseInt(pointIDText.getText()), Integer.parseInt(throwingPlayerText.getText()),
-							Integer.parseInt(blockingPlayerText.getText()));
-				} else if(typeList.getSelectedItem().equals("Pull")) {
-					throwService.addPull(Integer.parseInt(pointIDText.getText()), Integer.parseInt(throwingPlayerText.getText()),
-							Integer.parseInt(hangtimeText.getText()));
-				}
-			}
-			
-		});
-		
-		frame.add(throwButton);
-		
-	}
+	
+	// TODO: Add GameID Field so we can appropriately add throws
+	
+//	public void addThrowStuff() {
+//		
+//		JLabel throwingPlayerLabel = new JLabel();
+//		throwingPlayerLabel.setText("Throwing Player");
+//		throwingPlayerLabel.setBounds(20, 550, 200, 30);
+//		
+//		frame.add(throwingPlayerLabel);
+//		
+//		JTextField throwingPlayerText = new JTextField();
+//		throwingPlayerText.setEditable(true);
+//		throwingPlayerText.setBounds(120, 550, 200, 30);
+//		
+//		frame.add(throwingPlayerText);
+//		
+//		JLabel blockingPlayerLabel = new JLabel();
+//		blockingPlayerLabel.setText("Blocking Player");
+//		blockingPlayerLabel.setBounds(420, 550, 200, 30);
+//		
+//		frame.add(blockingPlayerLabel);
+//		
+//		JTextField blockingPlayerText = new JTextField();
+//		blockingPlayerText.setEditable(true);
+//		blockingPlayerText.setBounds(520, 550, 200, 30);
+//		
+//		frame.add(blockingPlayerText);
+//		
+//		JLabel catchingPlayerLabel = new JLabel();
+//		catchingPlayerLabel.setText("Catching Player");
+//		catchingPlayerLabel.setBounds(20, 600, 200, 30);
+//		
+//		frame.add(catchingPlayerLabel);
+//		
+//		JTextField catchingPlayerText = new JTextField();
+//		catchingPlayerText.setEditable(true);
+//		catchingPlayerText.setBounds(120, 600, 200, 30);
+//		
+//		frame.add(catchingPlayerText);
+//		
+//		JLabel hangtimeLabel = new JLabel();
+//		hangtimeLabel.setText("Hangtime");
+//		hangtimeLabel.setBounds(420, 600, 200, 30);
+//		
+//		frame.add(hangtimeLabel);
+//		
+//		JTextField hangtimeText = new JTextField();
+//		hangtimeText.setEditable(true);
+//		hangtimeText.setBounds(520, 600, 200, 30);
+//		
+//		frame.add(hangtimeText);
+//		
+//		JLabel type = new JLabel();
+//		type.setText("Type");
+//		type.setBounds(20, 650, 200, 30);
+//		
+//		frame.add(type);
+//		
+//		String[] types = {"Completed Pass", "Blocked Pass", "Pull"};
+//		JComboBox typeList = new JComboBox(types);
+//		typeList.setBounds(120, 650, 200, 30);
+//		
+//		frame.add(typeList);
+//		
+//		JLabel pointIDLabel = new JLabel();
+//		pointIDLabel.setText("PointID");
+//		pointIDLabel.setBounds(420, 650, 200, 30);
+//		
+//		frame.add(pointIDLabel);
+//		
+//		JTextField pointIDText = new JTextField();
+//		pointIDText.setEditable(true);
+//		pointIDText.setBounds(520, 650, 200, 30);
+//		
+//		frame.add(pointIDText);
+//		
+//		JLabel isGoalText = new JLabel();
+//		isGoalText.setText("Is goal?");
+//		isGoalText.setBounds(20, 700, 150, 30);
+//		
+//		frame.add(isGoalText);
+//		
+//		JRadioButton yesButton = new JRadioButton("yes");
+//		yesButton.setBounds(120, 700, 100, 30);
+//		JRadioButton noButton = new JRadioButton("no");
+//		noButton.setBounds(220, 700, 100, 30);
+//		
+//		frame.add(yesButton);
+//		frame.add(noButton);
+//		
+//		ButtonGroup group = new ButtonGroup();
+//		group.add(yesButton);
+//		group.add(noButton);
+//		
+//		
+//		JButton throwButton = new JButton();
+//		throwButton.setText("Add Throw");
+//		throwButton.setEnabled(true);
+//		throwButton.setBounds(520, 700, 150, 30);
+//		
+//		throwButton.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(typeList.getSelectedItem().equals("Completed Pass")) {
+//					if(yesButton.isSelected()) {
+//						throwService.addCompletedPass(Integer.parseInt(pointIDText.getText()), Integer.parseInt(throwingPlayerText.getText()),
+//								Integer.parseInt(catchingPlayerText.getText()), true);
+//					} else if(noButton.isSelected()) {
+//						throwService.addCompletedPass(Integer.parseInt(pointIDText.getText()), Integer.parseInt(throwingPlayerText.getText()),
+//								Integer.parseInt(catchingPlayerText.getText()), false);
+//					}
+//				} else if(typeList.getSelectedItem().equals("Blocked Pass")) {
+//					throwService.addBlockedPass(Integer.parseInt(pointIDText.getText()), Integer.parseInt(throwingPlayerText.getText()),
+//							Integer.parseInt(blockingPlayerText.getText()));
+//				} else if(typeList.getSelectedItem().equals("Pull")) {
+//					throwService.addPull(Integer.parseInt(pointIDText.getText()), Integer.parseInt(throwingPlayerText.getText()),
+//							Integer.parseInt(hangtimeText.getText()));
+//				}
+//			}
+//			
+//		});
+//		
+//		frame.add(throwButton);
+//		
+//	}
 	
 
 }

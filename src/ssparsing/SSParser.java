@@ -87,16 +87,16 @@ public class SSParser {
 
 		    Game game = getGame(sheet);
 		    java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-		    gameS.addGame(date);
+		    int gameID = gameS.addGame(date, teamS.getIDByTeamName(game.team1.teamName), teamS.getIDByTeamName(game.team2.teamName));
 		    getPlayersOnTeams(sheet, rows);
-		    getGameData(sheet, rows);
+		    getGameData(sheet, rows, gameID);
 
 		} catch(Exception ioe) {
 		    ioe.printStackTrace();
 		}
 	}
 
-	private void getGameData(XSSFSheet sheet, int numrows) {
+	private void getGameData(XSSFSheet sheet, int numrows, int gameID) {
 		XSSFRow row;
 		int pointID = 1;
 		for(int i = 4; i < numrows; i++) {
@@ -115,16 +115,16 @@ public class SSParser {
 			int otherPlayer = (int) otherPlayerCell.getNumericCellValue();			
 			
 			if (type.equals("Completed Pass")) {
-				throwS.addCompletedPass(pointID, throwingPlayer, otherPlayer, utilityCell.getBooleanCellValue());
+				throwS.addCompletedPass(gameID, pointID, throwingPlayer, otherPlayer, utilityCell.getBooleanCellValue());
 				if (utilityCell.getBooleanCellValue()) {
 					pointID++;
 				}
 			} else if (type.equals("Throwaway")) {
-				throwS.addThrowaway(pointID, throwingPlayer);
+				throwS.addThrowaway(gameID, pointID, throwingPlayer);
 			} else if (type.equals("BlockedThrow")) {
-				throwS.addBlockedPass(pointID, throwingPlayer, otherPlayer);
+				throwS.addBlockedPass(gameID, pointID, throwingPlayer, otherPlayer);
 			} else if (type.equals("Pull")) {
-				throwS.addPull(pointID, throwingPlayer, (int) utilityCell.getNumericCellValue());
+				throwS.addPull(gameID, pointID, throwingPlayer, (int) utilityCell.getNumericCellValue());
 			} else {
 				
 				System.err.println("INVALID THROW TYPE");

@@ -14,7 +14,7 @@ public class ThrowService {
 		this.dbService = dbService;
 	}
 	
-	private boolean addThrow(int pointID, int throwingPlayer, String type) {
+	private boolean addThrow(int gameID, int pointID, int throwingPlayer, String type) {
 		boolean result = false;
 		int errCode = -1;
 		CallableStatement stmt = null;
@@ -53,21 +53,23 @@ public class ThrowService {
 		return result;
 	}
 	
-	public boolean addCompletedPass(int pointID, int throwingPlayer, int catchingPlayer, boolean isGoal) {
+	public boolean addCompletedPass(int gameID, int pointID, int throwingPlayer, int catchingPlayer, boolean isGoal) {
 		boolean result = false;
 		
 		CallableStatement stmt = null;
 		int errCode = -1;
 		try {
-			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_completed_throw](?, ?, ?, ?)}");
+			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_completed_throw](?, ?, ?, ?, ?)}");
 			stmt.registerOutParameter(1, Types.INTEGER);
 			stmt.setInt(1, throwingPlayer);
 			stmt.setInt(2, pointID);
 			stmt.setInt(3, catchingPlayer);
+			stmt.setInt(4, gameID);
+			
 			if (isGoal)
-				stmt.setInt(3, 1);
+				stmt.setInt(5, 1);
 			else
-				stmt.setInt(3, 0);
+				stmt.setInt(5, 0);
 
 			stmt.execute();
 			errCode = stmt.getInt(1);
@@ -86,15 +88,16 @@ public class ThrowService {
 		return result;
 	}
 	
-	public boolean addBlockedPass(int pointID, int throwingPlayer, int blockingPlayer) {
+	public boolean addBlockedPass(int gameID, int pointID, int throwingPlayer, int blockingPlayer) {
 		boolean result = false;
-		if(addThrow(pointID, throwingPlayer, "BT")) {
+		if(addThrow(gameID, pointID, throwingPlayer, "BT")) {
 			CallableStatement stmt = null;
 			int errCode = -1;
 			try {
-				stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_blocked_throw] ?)}");
+				stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_blocked_throw](?, ?)}");
 				stmt.registerOutParameter(1, Types.INTEGER);
 				stmt.setInt(2, blockingPlayer);
+				stmt.setInt(gameID, gameID);
 				
 				stmt.execute();
 				errCode = stmt.getInt(1);
@@ -115,15 +118,16 @@ public class ThrowService {
 		return result;
 	}
 	
-	public boolean addPull(int pointID, int throwingPlayer, int hangtime) {
+	public boolean addPull(int gameID, int pointID, int throwingPlayer, int hangtime) {
 		boolean result = false;
-		if(addThrow(pointID, throwingPlayer, "PU")) {
+		if(addThrow(gameID, pointID, throwingPlayer, "PU")) {
 			CallableStatement stmt = null;
 			int errCode = -1;
 			try {
-				stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_pull] ?)}");
+				stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_pull](?, ?)}");
 				stmt.registerOutParameter(1, Types.INTEGER);
 				stmt.setInt(2, hangtime);
+				stmt.setInt(3, gameID);
 				
 				stmt.execute();
 				errCode = stmt.getInt(1);
@@ -144,7 +148,7 @@ public class ThrowService {
 		return result;
 	}
 	
-	public boolean addThrowaway(int pointID, int throwingPlayer) {
+	public boolean addThrowaway(int gameID, int pointID, int throwingPlayer) {
 		return true;
 	}
 
