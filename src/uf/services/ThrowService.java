@@ -155,7 +155,7 @@ public class ThrowService {
 		CallableStatement stmt = null;
 		int errCode = -1;
 		try {
-			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_pull](?, ?)}");
+			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_throwaway](?, ?)}");
 			stmt.registerOutParameter(1, Types.INTEGER);
 			stmt.setInt(2, throwingPlayer);
 			stmt.setInt(3, gameID);
@@ -168,7 +168,7 @@ public class ThrowService {
 		}
 		
 		if (errCode == 0) {
-			JOptionPane.showMessageDialog(null, "Add to Pull successful.");
+			JOptionPane.showMessageDialog(null, "Add to Throw successful.");
 			result = true;
 		} else if (errCode == 1) {
 			JOptionPane.showMessageDialog(null, "ERROR: Throwing Player must be a valid player");
