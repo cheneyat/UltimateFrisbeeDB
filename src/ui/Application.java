@@ -1,15 +1,23 @@
 package ui;
 
+import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 import ssparsing.Game;
 import ssparsing.SSParser;
@@ -31,6 +39,9 @@ public class Application {
 	private PlaysOnService playsOnService;
 	private GameService gameService;
 	
+	private JPanel insertPanel;
+	private JPanel viewPanel;
+	
 	public Application(PlayerService playerService, PointService pointService, ThrowService throwService, 
 			TeamService teamService, PlaysOnService playsOnService, GameService gameService) {
 		this.playerService = playerService;
@@ -39,19 +50,92 @@ public class Application {
 		this.teamService = teamService;
 		this.playsOnService = playsOnService;
 		this.gameService = gameService;
+		
+		this.insertPanel = new JPanel();
+		this.insertPanel.setLayout(null);
+		this.insertPanel.setSize(800,1000);
+		this.viewPanel = new JPanel();
+		this.viewPanel.setLayout(null);
+		this.viewPanel.setSize(800,1000);
+		
+		initializeFrame();
+		initializeInsertUI();
+		
+		frame.getContentPane().add(insertPanel);
+		
+		frame.setLayout(null);
+		frame.setVisible(true);
+		
+		
+	}
+	
+	public void initializeFrame() {
 		frame = new JFrame();
 		frame.setSize(800,1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
+		addMenuBar();
 		frame.setTitle("Ultimate Frisbee Stat Tracking App");
+	}
+	
+	public void initializeInsertUI() {
 		addTeamGuiStuff();
 		addPointGuiStuff();
 		addPlayerGuiStuff();
 		//addThrowStuff();
 		addPlaysOnGuiStuff();
 		addImportSpreadSheetStuff();
-		frame.setLayout(null);
-		frame.setVisible(true);
+	}
+	
+	public void initializeViewUI() {
+		
+	}
+	
+	public void switchGui(JPanel panel) {
+		frame.getContentPane().removeAll();
+		frame.getContentPane().add(panel);
+		
+		frame.repaint();
+	}
+	
+	public void addMenuBar() {
+		//Where the GUI is created:
+		JMenuBar menuBar;
+		JMenu menu, submenu;
+		JMenuItem menuItem;
+		JCheckBoxMenuItem cbMenuItem;
+
+		//Create the menu bar.
+		menuBar = new JMenuBar();
+
+		//Build the first menu.
+		menu = new JMenu("Change Views...");
+
+		JMenuItem insertViewButton = new JMenuItem("Insert Data View");
+		menu.add(insertViewButton);
+		insertViewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchGui(insertPanel);
+				
+			}
+		});
+		
+		
+		JMenuItem viewDataViewButton = new JMenuItem("View Data View");
+		menu.add(viewDataViewButton);
+		menuBar.add(menu);
+		viewDataViewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switchGui(viewPanel);
+			}
+		});
+
+
+		frame.setJMenuBar(menuBar);
 	}
 	
 	
@@ -87,11 +171,11 @@ public class Application {
 			
 		});
 		
-		frame.add(teamTextField);
-		frame.add(teamButton);
-		frame.add(teamLabel);
-		frame.add(teamIDTextField);
-		frame.add(teamIDLabel);
+		insertPanel.add(teamTextField);
+		insertPanel.add(teamButton);
+		insertPanel.add(teamLabel);
+		insertPanel.add(teamIDTextField);
+		insertPanel.add(teamIDLabel);
 		
 	}
 	
@@ -126,11 +210,11 @@ public class Application {
 			
 		});
 		
-		frame.add(teamIDLabel);
-		frame.add(USAUIDLabel);
-		frame.add(teamIDTextField);
-		frame.add(PlayerIDTextField);
-		frame.add(addToTeamButton);
+		insertPanel.add(teamIDLabel);
+		insertPanel.add(USAUIDLabel);
+		insertPanel.add(teamIDTextField);
+		insertPanel.add(PlayerIDTextField);
+		insertPanel.add(addToTeamButton);
 	}
 	
 	
@@ -149,9 +233,9 @@ public class Application {
 		importButton.setEnabled(true);
 		importButton.setBounds(520, 900, 150, 30);
 		
-		frame.add(importSpreadSheetLabel);
-		frame.add(spreadSheetTextField);
-		frame.add(importButton);
+		insertPanel.add(importSpreadSheetLabel);
+		insertPanel.add(spreadSheetTextField);
+		insertPanel.add(importButton);
 		
 		importButton.addActionListener(new ActionListener() {
 
@@ -214,16 +298,16 @@ public class Application {
 			
 		});
 		
-		frame.add(USAUIDTextField);
-		frame.add(USAUIDLabel);
-		frame.add(fNameLabel);
-		frame.add(fNameTextField);
-		frame.add(lNameLabel);
-		frame.add(lNameTextField);
-		frame.add(podIDLabel);
-		frame.add(podIDTextField);
+		insertPanel.add(USAUIDTextField);
+		insertPanel.add(USAUIDLabel);
+		insertPanel.add(fNameLabel);
+		insertPanel.add(fNameTextField);
+		insertPanel.add(lNameLabel);
+		insertPanel.add(lNameTextField);
+		insertPanel.add(podIDLabel);
+		insertPanel.add(podIDTextField);
 
-		frame.add(playerButton);
+		insertPanel.add(playerButton);
 	}
 	
 	public void addPointGuiStuff() {
@@ -237,8 +321,8 @@ public class Application {
 		gameIDtext.setEditable(true);
 		gameIDtext.setBounds(520, 360, 200, 30);
 		
-		frame.add(gameID);
-		frame.add(gameIDtext);
+		insertPanel.add(gameID);
+		insertPanel.add(gameIDtext);
 		
 		// PointID
 		JLabel pointID = new JLabel();
@@ -249,8 +333,8 @@ public class Application {
 		pointIDtext.setEditable(true);
 		pointIDtext.setBounds(120, 360, 200, 30);
 		
-		frame.add(pointIDtext);
-		frame.add(pointID);
+		insertPanel.add(pointIDtext);
+		insertPanel.add(pointID);
 		
 		// Offense
 		JLabel offteamLabel = new JLabel();
@@ -261,8 +345,8 @@ public class Application {
 		offteamTextField.setEditable(true);
 		offteamTextField.setBounds(120, 400, 200, 30);
 		
-		frame.add(offteamTextField);
-		frame.add(offteamLabel);
+		insertPanel.add(offteamTextField);
+		insertPanel.add(offteamLabel);
 		
 		// Defense
 		JLabel defteamLabel = new JLabel();
@@ -273,8 +357,8 @@ public class Application {
 		defteamTextField.setEditable(true);
 		defteamTextField.setBounds(520, 400, 200, 30);
 		
-		frame.add(defteamTextField);
-		frame.add(defteamLabel);
+		insertPanel.add(defteamTextField);
+		insertPanel.add(defteamLabel);
 		
 		// Scoring Player
 		JLabel scoringPlayerLabel = new JLabel();
@@ -285,8 +369,8 @@ public class Application {
 		scoringPlayerTextField.setEditable(true);
 		scoringPlayerTextField.setBounds(120, 450, 200, 30);
 		
-		frame.add(scoringPlayerTextField);
-		frame.add(scoringPlayerLabel);
+		insertPanel.add(scoringPlayerTextField);
+		insertPanel.add(scoringPlayerLabel);
 		
 		// Assisting Player
 		JLabel assistingPlayerLabel = new JLabel();
@@ -297,8 +381,8 @@ public class Application {
 		assistingPlayerTextField.setEditable(true);
 		assistingPlayerTextField.setBounds(520, 450, 200, 30);
 		
-		frame.add(assistingPlayerLabel);
-		frame.add(assistingPlayerTextField);
+		insertPanel.add(assistingPlayerLabel);
+		insertPanel.add(assistingPlayerTextField);
 		
 		
 		JButton defteamButton = new JButton();
@@ -318,7 +402,7 @@ public class Application {
 		});
 		
 		
-		frame.add(defteamButton);
+		insertPanel.add(defteamButton);
 	}
 	
 	
@@ -330,87 +414,87 @@ public class Application {
 //		throwingPlayerLabel.setText("Throwing Player");
 //		throwingPlayerLabel.setBounds(20, 550, 200, 30);
 //		
-//		frame.add(throwingPlayerLabel);
+//		insertPanel.add(throwingPlayerLabel);
 //		
 //		JTextField throwingPlayerText = new JTextField();
 //		throwingPlayerText.setEditable(true);
 //		throwingPlayerText.setBounds(120, 550, 200, 30);
 //		
-//		frame.add(throwingPlayerText);
+//		insertPanel.add(throwingPlayerText);
 //		
 //		JLabel blockingPlayerLabel = new JLabel();
 //		blockingPlayerLabel.setText("Blocking Player");
 //		blockingPlayerLabel.setBounds(420, 550, 200, 30);
 //		
-//		frame.add(blockingPlayerLabel);
+//		insertPanel.add(blockingPlayerLabel);
 //		
 //		JTextField blockingPlayerText = new JTextField();
 //		blockingPlayerText.setEditable(true);
 //		blockingPlayerText.setBounds(520, 550, 200, 30);
 //		
-//		frame.add(blockingPlayerText);
+//		insertPanel.add(blockingPlayerText);
 //		
 //		JLabel catchingPlayerLabel = new JLabel();
 //		catchingPlayerLabel.setText("Catching Player");
 //		catchingPlayerLabel.setBounds(20, 600, 200, 30);
 //		
-//		frame.add(catchingPlayerLabel);
+//		insertPanel.add(catchingPlayerLabel);
 //		
 //		JTextField catchingPlayerText = new JTextField();
 //		catchingPlayerText.setEditable(true);
 //		catchingPlayerText.setBounds(120, 600, 200, 30);
 //		
-//		frame.add(catchingPlayerText);
+//		insertPanel.add(catchingPlayerText);
 //		
 //		JLabel hangtimeLabel = new JLabel();
 //		hangtimeLabel.setText("Hangtime");
 //		hangtimeLabel.setBounds(420, 600, 200, 30);
 //		
-//		frame.add(hangtimeLabel);
+//		insertPanel.add(hangtimeLabel);
 //		
 //		JTextField hangtimeText = new JTextField();
 //		hangtimeText.setEditable(true);
 //		hangtimeText.setBounds(520, 600, 200, 30);
 //		
-//		frame.add(hangtimeText);
+//		insertPanel.add(hangtimeText);
 //		
 //		JLabel type = new JLabel();
 //		type.setText("Type");
 //		type.setBounds(20, 650, 200, 30);
 //		
-//		frame.add(type);
+//		insertPanel.add(type);
 //		
 //		String[] types = {"Completed Pass", "Blocked Pass", "Pull"};
 //		JComboBox typeList = new JComboBox(types);
 //		typeList.setBounds(120, 650, 200, 30);
 //		
-//		frame.add(typeList);
+//		insertPanel.add(typeList);
 //		
 //		JLabel pointIDLabel = new JLabel();
 //		pointIDLabel.setText("PointID");
 //		pointIDLabel.setBounds(420, 650, 200, 30);
 //		
-//		frame.add(pointIDLabel);
+//		insertPanel.add(pointIDLabel);
 //		
 //		JTextField pointIDText = new JTextField();
 //		pointIDText.setEditable(true);
 //		pointIDText.setBounds(520, 650, 200, 30);
 //		
-//		frame.add(pointIDText);
+//		insertPanel.add(pointIDText);
 //		
 //		JLabel isGoalText = new JLabel();
 //		isGoalText.setText("Is goal?");
 //		isGoalText.setBounds(20, 700, 150, 30);
 //		
-//		frame.add(isGoalText);
+//		insertPanel.add(isGoalText);
 //		
 //		JRadioButton yesButton = new JRadioButton("yes");
 //		yesButton.setBounds(120, 700, 100, 30);
 //		JRadioButton noButton = new JRadioButton("no");
 //		noButton.setBounds(220, 700, 100, 30);
 //		
-//		frame.add(yesButton);
-//		frame.add(noButton);
+//		insertPanel.add(yesButton);
+//		insertPanel.add(noButton);
 //		
 //		ButtonGroup group = new ButtonGroup();
 //		group.add(yesButton);
@@ -445,7 +529,7 @@ public class Application {
 //			
 //		});
 //		
-//		frame.add(throwButton);
+//		insertPanel.add(throwButton);
 //		
 //	}
 	
