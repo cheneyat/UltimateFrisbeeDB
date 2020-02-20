@@ -6,6 +6,7 @@ import ssparsing.SSParser;
 import uf.services.DatabaseConnectionService;
 import uf.services.GameService;
 import uf.services.PlayerService;
+import uf.services.PlayerStatsService;
 import uf.services.PointService;
 import uf.services.ThrowService;
 import uf.services.TeamService;
@@ -22,7 +23,8 @@ public class Main {
 			System.out.println("Connected to db");
 		}
 		
-		Application app = new Application(new PlayerService(dbService), new PointService(dbService), new ThrowService(dbService), new TeamService(dbService), new PlaysOnService(dbService), new GameService(dbService));
+		Application app = new Application(new PlayerService(dbService), new PointService(dbService), new ThrowService(dbService), new TeamService(dbService), new PlaysOnService(dbService), new GameService(dbService),
+							new PlayerStatsService(dbService));
 		
 //		ApplicationRunner appRunner = new ApplicationRunner();
 //		appRunner.runApplication(args);

@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Dimension;
 import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,14 +17,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.table.TableModel;
 
 import ssparsing.Game;
 import ssparsing.SSParser;
 import uf.services.DatabaseConnectionService;
 import uf.services.GameService;
 import uf.services.PlayerService;
+import uf.services.PlayerStatsService;
 import uf.services.PointService;
 import uf.services.ThrowService;
 import uf.services.TeamService;
@@ -38,18 +43,26 @@ public class Application {
 	private TeamService teamService;
 	private PlaysOnService playsOnService;
 	private GameService gameService;
+	private PlayerStatsService playerStatsService;
+	
+	private String[][] playerStatsData;
+	private JTable playerStatsTable;
 	
 	private JPanel insertPanel;
 	private JPanel viewPanel;
 	
 	public Application(PlayerService playerService, PointService pointService, ThrowService throwService, 
-			TeamService teamService, PlaysOnService playsOnService, GameService gameService) {
+			TeamService teamService, PlaysOnService playsOnService, GameService gameService, PlayerStatsService pstats) {
 		this.playerService = playerService;
 		this.pointService = pointService;
 		this.throwService = throwService;
 		this.teamService = teamService;
 		this.playsOnService = playsOnService;
 		this.gameService = gameService;
+		this.playerStatsService = pstats;
+		
+		this.playerStatsData = this.playerStatsService.statsByPlayer(null, null, null);
+		
 		
 		this.insertPanel = new JPanel();
 		this.insertPanel.setLayout(null);
@@ -60,6 +73,7 @@ public class Application {
 		
 		initializeFrame();
 		initializeInsertUI();
+		initializeViewUI();
 		
 		frame.getContentPane().add(insertPanel);
 		
@@ -88,7 +102,68 @@ public class Application {
 	}
 	
 	public void initializeViewUI() {
+		addPlayerStatsView();
+	}
+	
+	private void addPlayerStatsView() {
+		JLabel USAUIDLabel = new JLabel();
+		USAUIDLabel.setText("Enter USAUID to search:");
+		USAUIDLabel.setBounds(20, 20, 150, 30);
+		this.viewPanel.add(USAUIDLabel);
 		
+		JTextField USAUIDText = new JTextField();
+		USAUIDText.setEditable(true);
+		USAUIDText.setBounds(20, 60, 150, 30);
+		this.viewPanel.add(USAUIDText);
+		
+		JLabel fNameLabel = new JLabel();
+		fNameLabel.setText("Enter first name to search:");
+		fNameLabel.setBounds(200, 20, 200, 30);
+		this.viewPanel.add(fNameLabel);
+		
+		JTextField fNameText = new JTextField();
+		fNameText.setEditable(true);
+		fNameText.setBounds(200, 60, 150, 30);
+		this.viewPanel.add(fNameText);
+		
+		JLabel lNameLabel = new JLabel();
+		lNameLabel.setText("Enter last name to search:");
+		lNameLabel.setBounds(380, 20, 200, 30);
+		this.viewPanel.add(lNameLabel);
+		
+		JTextField lNameText = new JTextField();
+		lNameText.setEditable(true);
+		lNameText.setBounds(380, 60, 150, 30);
+		this.viewPanel.add(lNameText);
+		
+		JButton searchButton = new JButton();
+		searchButton.setText("Search!");
+		searchButton.setBounds(200, 100, 150, 30);
+		
+		String[] columnNames = {"USAUID", "First Name", "Last Name", "Completed Passes", "Assists",
+				"Points Scored", "Throwaways", "Completion Percentage"};
+		this.playerStatsTable = new JTable(this.playerStatsData, columnNames);
+		
+		JScrollPane sp = new JScrollPane(); 
+        sp.getViewport().add(this.playerStatsTable);
+        sp.setBounds(0, 200, 800, 300);
+        this.viewPanel.add(sp);
+		
+		searchButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println(USAUIDText.getText());
+				playerStatsTable = new JTable(playerStatsService.statsByPlayer(USAUIDText.getText(), fNameText.getText(), lNameText.getText()),
+									columnNames);
+				sp.getViewport().add(playerStatsTable);
+			}
+			
+		});
+		this.viewPanel.add(searchButton);
+		
+		
+        
 	}
 	
 	public void switchGui(JPanel panel) {
