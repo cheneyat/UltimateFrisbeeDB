@@ -68,6 +68,7 @@ public class TeamStatsService {
 				results.add(temp);
 			}
 		} catch (SQLException e) {
+
 		}
 		String[][] actualResults = new String[results.size()][7];
 		for(int i = 0; i < results.size(); i++) {

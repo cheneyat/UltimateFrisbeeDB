@@ -102,7 +102,7 @@ public class Application {
 		addTeamGuiStuff();
 		//addPointGuiStuff();
 		addPlayerGuiStuff();
-		addThrowStuff();
+		//addThrowStuff();
 		addPlaysOnGuiStuff();
 		addImportSpreadSheetStuff();
 	}
