@@ -324,7 +324,6 @@ public class Application {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					System.out.println("adding to team");
 					playsOnService.addPlayerToTeam(Integer.parseInt(PlayerIDTextField.getText()), Integer.parseInt(teamIDTextField.getText()));
 				}
 				catch (Exception er) {
