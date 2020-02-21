@@ -7,6 +7,7 @@ import uf.services.DatabaseConnectionService;
 import uf.services.GameService;
 import uf.services.PlayerService;
 import uf.services.PlayerStatsService;
+import uf.services.TeamStatsService;
 import uf.services.PointService;
 import uf.services.ThrowService;
 import uf.services.TeamService;
@@ -24,7 +25,7 @@ public class Main {
 		}
 		
 		Application app = new Application(new PlayerService(dbService), new PointService(dbService), new ThrowService(dbService), new TeamService(dbService), new PlaysOnService(dbService), new GameService(dbService),
-							new PlayerStatsService(dbService));
+							new PlayerStatsService(dbService), new TeamStatsService(dbService));
 		
 //		ApplicationRunner appRunner = new ApplicationRunner();
 //		appRunner.runApplication(args);
