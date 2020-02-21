@@ -35,8 +35,6 @@ public class PointService {
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		if (errCode == 0) {
@@ -62,8 +60,6 @@ public class PointService {
 			return id;
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.err.println("Invalid player");
 			return -1;
 		}
 	}
@@ -80,8 +76,6 @@ public int GetTeamIDByName(String username) {
 			return id;
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.err.println("Invalid team");
 			return -1;
 		}
 	}

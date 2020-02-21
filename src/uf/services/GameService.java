@@ -20,8 +20,6 @@ public class GameService {
 		int errCode = -1;
 		CallableStatement stmt = null;
 		
-		System.out.println(team1);
-		System.out.println(team2);
 		
 		try {
 			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_game](?, ?, ?)}");
@@ -33,8 +31,6 @@ public class GameService {
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		if (errCode == -1) {

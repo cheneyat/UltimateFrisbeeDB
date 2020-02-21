@@ -29,8 +29,7 @@ public class ThrowService {
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		
 		if (errCode == 0) {
@@ -69,8 +68,6 @@ public class ThrowService {
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		if (errCode == 0) {
@@ -103,8 +100,6 @@ public class ThrowService {
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		if (errCode == 0) {
@@ -133,8 +128,6 @@ public class ThrowService {
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		if (errCode == 0) {
@@ -163,8 +156,7 @@ public class ThrowService {
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		
 		if (errCode == 0) {

@@ -139,7 +139,6 @@ public class Application {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//System.out.println(TeamNameText.getText());
 				teamStatsTable = new JTable(teamStatsService.statsByTeam(TeamNameText.getText()),
 									columnNames);
 				sp.getViewport().add(teamStatsTable);
@@ -197,7 +196,6 @@ public class Application {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println(USAUIDText.getText());
 				playerStatsTable = new JTable(playerStatsService.statsByPlayer(USAUIDText.getText(), fNameText.getText(), lNameText.getText()),
 									columnNames);
 				sp.getViewport().add(playerStatsTable);

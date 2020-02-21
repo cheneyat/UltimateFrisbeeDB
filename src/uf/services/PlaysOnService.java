@@ -27,7 +27,7 @@ public class PlaysOnService {
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 		
 		if (errCode == 0) {

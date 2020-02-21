@@ -27,7 +27,6 @@ public class TeamService {
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		
 		if (errCode == 0) {
@@ -55,7 +54,6 @@ public class TeamService {
 			stmt.execute();
 			result = stmt.getInt(1);
 		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		
 		return result;

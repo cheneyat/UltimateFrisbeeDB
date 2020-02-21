@@ -38,7 +38,7 @@ public class DatabaseConnectionService {
 			connection = DriverManager.getConnection(connectionURL);
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 		return false;
 	}
@@ -52,7 +52,7 @@ public class DatabaseConnectionService {
 		try {
 			connection.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 	}
 	

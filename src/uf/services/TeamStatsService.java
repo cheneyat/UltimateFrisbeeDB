@@ -46,8 +46,6 @@ public class TeamStatsService {
 			ResultSet rs = stmt.executeQuery();
 			return parseResults(rs);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -70,8 +68,6 @@ public class TeamStatsService {
 				results.add(temp);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		String[][] actualResults = new String[results.size()][7];
 		for(int i = 0; i < results.size(); i++) {
