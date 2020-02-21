@@ -38,7 +38,6 @@ public class DatabaseConnectionService {
 			connection = DriverManager.getConnection(connectionURL);
 			return true;
 		} catch (SQLException e) {
-			
 		}
 		return false;
 	}
