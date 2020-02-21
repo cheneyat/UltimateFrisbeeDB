@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -44,19 +46,18 @@ public class SSParser {
 		try {
 			stream = new FileInputStream(filePath);
 		} catch (FileNotFoundException e) {
-			System.err.println("Invalid filepath: " + filePath);
+			JOptionPane.showMessageDialog(null, "Invalid filepath: " + filePath);
 		}
 		
 		try {
 			excelFile = new XSSFWorkbook(stream);
-		} catch (IOException e) {
-			System.err.println("Failed initializing the Excel file.");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Failed initializing the Excel file.");
 		}
 	}
 	
 	public void parse(ThrowService throwService, PlayerService playerService, PointService pointService, TeamService teamService, GameService gameService) {
 		
-		System.out.println("Parsing Game #1");
 		throwS = throwService;
 		playerS = playerService;
 		pointS = pointService;
@@ -92,7 +93,6 @@ public class SSParser {
 		    getGameData(sheet, rows, gameID);
 
 		} catch(Exception ioe) {
-		    ioe.printStackTrace();
 		}
 	}
 
@@ -127,7 +127,6 @@ public class SSParser {
 				throwS.addPull(gameID, pointID, throwingPlayer, (int) utilityCell.getNumericCellValue());
 			} else {
 				
-				System.err.println("INVALID THROW TYPE");
 			}
 		}
 	}
@@ -170,9 +169,7 @@ public class SSParser {
 			return null;
 		}
 		
-        System.out.println("Team1: " + cell.getStringCellValue());
-        System.out.println("Team2: " + cell2.getStringCellValue());
-        System.out.println();
+       
         return new Game(cell.getStringCellValue(), cell2.getStringCellValue());
 	}
 
