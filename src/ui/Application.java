@@ -33,6 +33,7 @@ import uf.services.PointService;
 import uf.services.ThrowService;
 import uf.services.TeamService;
 import uf.services.PlaysOnService;
+import uf.services.TeamStatsService;
 
 public class Application {
 	
@@ -44,15 +45,19 @@ public class Application {
 	private PlaysOnService playsOnService;
 	private GameService gameService;
 	private PlayerStatsService playerStatsService;
+	private TeamStatsService teamStatsService;
 	
 	private String[][] playerStatsData;
 	private JTable playerStatsTable;
+	
+	private String[][] teamStatsData;
+	private JTable teamStatsTable;
 	
 	private JPanel insertPanel;
 	private JPanel viewPanel;
 	
 	public Application(PlayerService playerService, PointService pointService, ThrowService throwService, 
-			TeamService teamService, PlaysOnService playsOnService, GameService gameService, PlayerStatsService pstats) {
+			TeamService teamService, PlaysOnService playsOnService, GameService gameService, PlayerStatsService pstats, TeamStatsService tstats) {
 		this.playerService = playerService;
 		this.pointService = pointService;
 		this.throwService = throwService;
@@ -60,9 +65,10 @@ public class Application {
 		this.playsOnService = playsOnService;
 		this.gameService = gameService;
 		this.playerStatsService = pstats;
+		this.teamStatsService = tstats;
 		
 		this.playerStatsData = this.playerStatsService.statsByPlayer(null, null, null);
-		
+		this.teamStatsData = this.teamStatsService.statsByTeam(null);
 		
 		this.insertPanel = new JPanel();
 		this.insertPanel.setLayout(null);
@@ -103,6 +109,44 @@ public class Application {
 	
 	public void initializeViewUI() {
 		addPlayerStatsView();
+		addTeamStatsView();
+	}
+	
+	private void addTeamStatsView() {
+		JLabel TeamNameLabel = new JLabel();
+		TeamNameLabel.setText("Enter Team Name to search:");
+		TeamNameLabel.setBounds(20, 520, 170, 30);
+		this.viewPanel.add(TeamNameLabel);
+		
+		JTextField TeamNameText = new JTextField();
+		TeamNameText.setEditable(true);
+		TeamNameText.setBounds(20, 560, 170, 30);
+		this.viewPanel.add(TeamNameText);
+		
+		JButton searchButton = new JButton();
+		searchButton.setText("Search!");
+		searchButton.setBounds(20, 600, 170, 30);
+		
+		String[] columnNames = {"Team", "Wins", "Losses", "Points For", "Points Against"};
+		this.teamStatsTable = new JTable(this.teamStatsData, columnNames);
+		
+		JScrollPane sp = new JScrollPane(); 
+        sp.getViewport().add(this.teamStatsTable);
+        sp.setBounds(0, 700, 800, 300);
+        this.viewPanel.add(sp);
+		
+		searchButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//System.out.println(TeamNameText.getText());
+				teamStatsTable = new JTable(teamStatsService.statsByTeam(TeamNameText.getText()),
+									columnNames);
+				sp.getViewport().add(teamStatsTable);
+			}
+			
+		});
+		this.viewPanel.add(searchButton);
 	}
 	
 	private void addPlayerStatsView() {
