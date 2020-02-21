@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -322,7 +323,13 @@ public class Application {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				playsOnService.addPlayerToTeam(Integer.parseInt(PlayerIDTextField.getText()), Integer.parseInt(teamIDTextField.getText()));			
+				try {
+					System.out.println("adding to team");
+					playsOnService.addPlayerToTeam(Integer.parseInt(PlayerIDTextField.getText()), Integer.parseInt(teamIDTextField.getText()));
+				}
+				catch (Exception er) {
+					JOptionPane.showMessageDialog(null, "Failed to add");
+				}
 			}
 			
 		});

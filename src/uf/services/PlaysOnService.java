@@ -20,14 +20,15 @@ public class PlaysOnService {
 		CallableStatement stmt = null;
 		
 		try {
-			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[insert_plays_on](?, ?)}");
+			stmt = this.dbService.getConnection().prepareCall("{? = call [dbo].[update_player_to_team](?, ?)}");
 			stmt.registerOutParameter(1, Types.INTEGER);
 			stmt.setInt(2, USAUID);
 			stmt.setInt(3, TeamID);
 			stmt.execute();
 			errCode = stmt.getInt(1);
 		} catch (SQLException e) {
-			
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "failed to add");
 		}
 		
 		if (errCode == 0) {
